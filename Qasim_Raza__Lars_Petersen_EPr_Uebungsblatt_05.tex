@@ -1,0 +1,210 @@
+\documentclass[a4paper]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some common includes. Add additional includes you need.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{ngerman}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[margin=23mm,bottom=30mm]{geometry}
+\RequirePackage{graphicx}
+\RequirePackage{amsmath,amsfonts,amssymb,amsthm}
+\RequirePackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Defines for mathematical notation. Add additional defines as needed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\O{\mathcal{O}}
+\def\sort{\mathrm{sort}}
+\def\scan{\mathrm{scan}}
+\def\dist{\mathrm{dist}}
+
+\setlength{\parindent}{0cm}
+\renewcommand{\refname}{Quellen}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definition of the assignment header
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{/Users/larspetersen/JWGU/Prg/header.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set option "german" or "english", depending on what language the
+% default texts should be in.
+\ExecuteOptions{german}
+\ProcessOptions
+
+% Enter the lecture name and semester
+\lecture{Einf\"uhrung in die Programmierung}
+\semester{Winter 2016/2017}
+
+% Enter your data: Name, Matrikelnummer (student ID number) and group
+\student{Qasim Raza, Lars Petersen}{6360278, 6290157}{11}
+% Tutorin: sabrinasafre@gmail.com
+
+% Which assignment is this?
+\assignment{5}
+
+% The environment "exercise" takes one parameter (the exercise number). 
+% This way you can skip exercises if you like. Example:
+% 
+% \assignment{3}
+% \begin{exercise}{8}
+% ...
+% \end{exercise}
+% 
+% The solution to exercise 3.8 (3rd assignment, 8th exercise) goes where 
+% the dots are.
+
+
+\begin{document}
+
+
+
+\begin{exercise}{x}
+
+Dokumentation der Testf\"alle:
+
+
+\begin{center}
+	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
+		\hline
+		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
+		
+		Begr\"u\ss{}ung & 
+		& In der Konsole wird eine allgemeine Begr\"u\ss{}ung ausgegeben. \\ \hline
+		
+		Abfrage des Initialisierungsmodus & $0$ - random \newline $1$ - manuelle Eingabe
+		& Der Benutzer hat w\"ahrend der Initialisierungsphase die M\"oglichkeit, die
+		Parameter des Spiels randomisiert erzeugen zu lassen, oder diese selbst einzugeben.\\ \hline
+		
+		Startwerte f\"ur die St\"adte & random
+		& Aus einer Liste werden zuf\"allig zwischen 5 und 20 St\"adte ausgew\"ahlt. \\ \hline
+		
+		Startwerte f\"ur die St\"adte & manuell
+		& Der Benutzer kann selbstst\"andig eine Liste zwischen 5 und 20 St\"adten eingeben. \\ \hline
+		
+		Startwerte f\"ur Heimatstadt und Anzahl Manager & random
+		& Es wird zuf\"allig eine Heimatstadt aus der Liste der St\"adte ausgew\"ahlt.
+		Zudem wird zuf\"allig eine Anzahl von Managern gew\"ahlt (zwischen 5 und 20). \\ \hline
+		
+		Startwerte f\"ur die St\"adte & manuell
+		& Der Benutzer kann selbstst\"andig die Heimatstadt aus der Liste der St\"adte ausw\"ahlen.
+		Zudem kann er die Anzahl der dortigen Manager festlegen (zwischen 5 und 20). \\ \hline
+		
+		Startwerte f\"ur Spieldauer & random
+		& Es wird zuf\"allig eine Spieldauer festgelegt (zwischen 5 und 40).
+		Zudem wird zuf\"allig eine Anzahl von Managern gew\"ahlt (zwischen 5 und 40). \\ \hline
+		
+		Startwerte f\"ur die Spieldauer & manuell
+		& Der Benutzer kann selbstst\"andig die Spieldauer angeben (zwischen 5 und 40). \\ \hline
+		
+		Startwerte f\"ur Gewinne in St\"adten & random
+		& Es wird zuf\"allig je Stadt der potentielle Gewinn festgelegt (zwischen -20 und 90). \\ \hline
+		
+		Startwerte f\"ur Gewinne in St\"adten & manuell
+		& Der Benutzer kann selbstst\"andig je Stadt den potentiellen Gewinn festlegen (Angabe
+		einer Liste mit Werten zwischen -20 und 90). \\ \hline
+		
+		Startwerte f\"ur Stra\ss{}ennetzwerk & random
+		& Es wird zuf\"allig ein Stra\ss{}ennetzwerk initialisiert und angezeigt. \\ \hline
+		
+		Startwerte f\"ur Stra\ss{}ennetzwerk & manuell
+		& Der Benutzer kann selbstst\"andig das Netzwerk festlegen, indem er Adjazenzen \"andert.
+		Dabei geht er vom vollst\"andig zusammenh\"angenden Netzwerk aus. Jede einzelne 
+		\"Anderung wird ihm angezeigt. Mit end! kann er seine \"Anderungen abschlie\ss{}en. \\ \hline
+		
+		Anzeige des Stra\ss{}ennetzes &
+		& In einer Matrix werden die Verbindungen des Stra\ss{}ennetzes angezeigt. \\ \hline
+		
+		Anzeige des Spielstatus zu Beginn eines Spieltages &
+		& Zu Beginn des Spieltages wird dem Spieler immer der Status des Spiels angezeigt.
+		Dies umfasst die Adjazenzmatrix und die Verteilung der Manager, Hotels sowie die
+		potentiellen Gewinne. \\ \hline
+		
+		Ablauf einer Spielrunde &
+		& Die Spielrunde beginnt mit der bisherigen Statistik des Spielers w\"ahrend des Spiels,
+		darauf folgt der input, woraufhin das Programm diesen Befehl umsetzt. \\ \hline
+		
+	\end{tabular}
+
+	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
+		\hline
+		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
+		
+		Spielzug \texttt{pass} & pass
+		& Mit diesem Befehl nimmt der Benutzer keine Bewegung oder \"Anderung vor.
+		Die Syntax der Eingabe wird gepr\"uft. Nicht korrekte Eingaben ziehen eine neue Eingabe
+		nach sich. \\ \hline
+		
+		Spielzug \texttt{move} & move: number, city1, city2
+		& Mit diesem Befehl nimmt der Benutzer keine Bewegung oder \"Anderung vor.
+		Die Syntax und die Semantik der Eingabe (St\"adte existieren, St\"adte sind verbunden,
+		Anzahl Manager in city1 ist gr\"o\ss{}er gleich number) wird gepr\"uft. Nicht korrekte Eingaben
+		ziehen eine neue Eingabe nach sich. \\ \hline
+		
+		Spielzug \texttt{build} & build: city
+		& Die Syntax und die Semantik der Eingabe (St\"ad existiert, St\"adt hat nicht schon ein
+		Hotel) wird gepr\"uft. Nicht korrekte Eingaben
+		ziehen eine neue Eingabe nach sich. \\ \hline
+		
+		Spielzug \texttt{hire} & hire: city
+		& Die Syntax und die Semantik der Eingabe (St\"ad existiert, Anzahl der Spieltage reicht noch
+		aus, um Zug auszuf\"uhren) wird gepr\"uft. Nicht korrekte Eingaben
+		ziehen eine neue Eingabe nach sich. Eine automatische Berechnung erfolgt in den
+		\emph{gesperrten} Tagen. \\ \hline
+		
+		Berechnung des Tagesgewinns &
+		& Am Ende eines Spieltages wird der Tagesgewinn berechnet und angezeigt. \\ \hline
+		
+		Anzeige des Spielstatus am Ende eines Tages &
+		& Am Ende eines Tages wird eine Statistik mit der Anzahl der Manager, Hotels, den
+		den potenziellen und dem aktuellen Gewinn je Stadt angezeigt. \\ \hline
+		
+		Pr\"ufung der Syntax f\"ur Befehle &
+		& F\"ur jeden definierten Befehl wird die Syntax der Eingabe gepr\"uft und abgeglichen.
+		Nicht konforme Angaben werden nicht akzeptiert. Dies schlie\ss{}t insbesondere Sonderzeichen
+		ein. \\ \hline
+		
+		Aufruf der Hilfe & help!
+		& Jederzeit kann der Spieler eine Hilfe anzeigen lassen. \\ \hline
+	
+		Beginn eines neuen Spiels & new game!
+		& Hiermit kann der Spieler jederzeit eine neue Runde beginnen. \\ \hline
+		
+		Spielabbruch auf Wunsch des Spielers & quit!
+		& Hiermit kann der Spieler jederzeit das Spiel beenden. \\ \hline
+		
+		Berechnung des Gesamtgewinns &
+		& Am Ende eines Spieltages wird der bis dahin erzielte Gewinn ausgegeben. \\ \hline
+		
+		Pr\"ufung auf Highscore &
+		& Am Ende des Spiels wird zusammen mit dem Namen des Spielers gepr\"uft,
+		ob die erreichte Punktzahl unter den 10 besten bisherigen Ergebnissen ist. \"Uber
+		das Ergebnis wird der Spieler informiert. \\ \hline
+
+		Darstellung der Highscores &
+		& Am Ende des Spiels wird die Highscore-Liste angezeigt.\\ \hline
+				
+		Abspeichern der Highscore-Liste &
+		& Am Ende des Spiels wird der Name des Spielers abgefragt, welcher dann mit der
+		erreichten Punktzahl in die High-Score-Datein eingef\"ugt wird, falls die erreichte
+		Punktzahl hoch genug ist. \\ \hline
+		
+		Regul\"ares Spielende &
+		& Nachdem die Highscore Liste dargestellt wurde, verabschiedet sich das Spiel vom Spieler.
+		\\ \hline
+		
+	\end{tabular}
+\end{center}
+
+\end{exercise}
+
+%\begin{thebibliography}{99}
+%\bibitem{Test}
+%Hallo
+%\end{thebibliography}
+
+%\begin{center}
+%\includegraphics[width=6cm,angle=270]{chart.eps}
+%\end{center}
+
+\end{document}
