@@ -65,133 +65,76 @@ Dokumentation der Testf\"alle:
 
 
 \begin{center}
+
+	{\Large Interne Funktionalit\"at} \\[2ex]
+
 	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
 		\hline
 		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
 		
 		Begr\"u\ss{}ung & 
-		& In der Konsole wird eine allgemeine Begr\"u\ss{}ung ausgegeben. \\ \hline
+		& \dots \\ \hline
 		
-		Abfrage des Initialisierungsmodus & $0$ - random \newline $1$ - manuelle Eingabe
-		& Der Benutzer hat w\"ahrend der Initialisierungsphase die M\"oglichkeit, die
-		Parameter des Spiels randomisiert erzeugen zu lassen, oder diese selbst einzugeben.\\ \hline
+		Neue Eintr\"age \newline anlegen & notwenidge Attribute
+		& \dots \\ \hline
 		
-		Startwerte f\"ur die St\"adte & random
+		Neue Eintr\"age \newline anlegen & optionale Attribute
+		& \dots \\ \hline
+		
+		Telefonbuch \newline vollst\"andig \newline anzeigen & 
 		& Aus einer Liste werden zuf\"allig zwischen 5 und 20 St\"adte ausgew\"ahlt. \\ \hline
 		
-		Startwerte f\"ur die St\"adte & manuell
-		& Der Benutzer kann selbstst\"andig eine Liste zwischen 5 und 20 St\"adten eingeben. \\ \hline
+		Eintr\"age suchen & Angabe einzelner oder mehrerer Attribute
+		& \dots \\ \hline
 		
-		Startwerte f\"ur Heimatstadt und Anzahl Manager & random
-		& Es wird zuf\"allig eine Heimatstadt aus der Liste der St\"adte ausgew\"ahlt.
-		Zudem wird zuf\"allig eine Anzahl von Managern gew\"ahlt (zwischen 5 und 20). \\ \hline
+		Eintr\"age sortieren und anzeigen & anhand aller Attribute
+		& Ber\"ucksichtigung von Sekund\"ar- und Terti\"arkriterien \dots \\ \hline
 		
-		Startwerte f\"ur die St\"adte & manuell
-		& Der Benutzer kann selbstst\"andig die Heimatstadt aus der Liste der St\"adte ausw\"ahlen.
-		Zudem kann er die Anzahl der dortigen Manager festlegen (zwischen 5 und 20). \\ \hline
+		Eintr\"age bearbeiten & individuell je Attribut
+		& \dots \\ \hline
 		
-		Startwerte f\"ur Spieldauer & random
-		& Es wird zuf\"allig eine Spieldauer festgelegt (zwischen 5 und 40).
-		Zudem wird zuf\"allig eine Anzahl von Managern gew\"ahlt (zwischen 5 und 40). \\ \hline
+		Eintr\"age l\"oschen & 
+		& \dots \\ \hline
 		
-		Startwerte f\"ur die Spieldauer & manuell
-		& Der Benutzer kann selbstst\"andig die Spieldauer angeben (zwischen 5 und 40). \\ \hline
+		Telefonbuch neu anlegen und in Datei ablegen & 
+		& \dots \\ \hline
 		
-		Startwerte f\"ur Gewinne in St\"adten & random
-		& Es wird zuf\"allig je Stadt der potentielle Gewinn festgelegt (zwischen -20 und 90). \\ \hline
+		Bestehendes Telefonbuch aus Datei einlesen und \"offnen & 
+		& \dots \\ \hline
 		
-		Startwerte f\"ur Gewinne in St\"adten & manuell
-		& Der Benutzer kann selbstst\"andig je Stadt den potentiellen Gewinn festlegen (Angabe
-		einer Liste mit Werten zwischen -20 und 90). \\ \hline
+		\"Anderungen eines Telefonbuchs abspeichern & 
+		& \dots \\ \hline
 		
-		Startwerte f\"ur Stra\ss{}ennetzwerk & random
-		& Es wird zuf\"allig ein Stra\ss{}ennetzwerk initialisiert und angezeigt. \\ \hline
-		
-		Startwerte f\"ur Stra\ss{}ennetzwerk & manuell
-		& Der Benutzer kann selbstst\"andig das Netzwerk festlegen, indem er Adjazenzen \"andert.
-		Dabei geht er vom vollst\"andig zusammenh\"angenden Netzwerk aus. Jede einzelne 
-		\"Anderung wird ihm angezeigt. Mit end! kann er seine \"Anderungen abschlie\ss{}en. \\ \hline
-		
-		Anzeige des Stra\ss{}ennetzes &
-		& In einer Matrix werden die Verbindungen des Stra\ss{}ennetzes angezeigt. \\ \hline
-		
-		Anzeige des Spielstatus zu Beginn eines Spieltages &
-		& Zu Beginn des Spieltages wird dem Spieler immer der Status des Spiels angezeigt.
-		Dies umfasst die Adjazenzmatrix und die Verteilung der Manager, Hotels sowie die
-		potentiellen Gewinne. \\ \hline
-		
-		Ablauf einer Spielrunde &
-		& Die Spielrunde beginnt mit der bisherigen Statistik des Spielers w\"ahrend des Spiels,
-		darauf folgt der input, woraufhin das Programm diesen Befehl umsetzt. \\ \hline
-		
+		Test-Telefonbuch &
+		& Test-Telefonbuch mit Namen Test-Telefonbuch wurde angelegt. \\ \hline
 	\end{tabular}
-
+	
+	\newpage
+	
+	{\Large User Interface} \\[2ex]
+		
 	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
 		\hline
 		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
-		
-		Spielzug \texttt{pass} & pass
-		& Mit diesem Befehl nimmt der Benutzer keine Bewegung oder \"Anderung vor.
-		Die Syntax der Eingabe wird gepr\"uft. Nicht korrekte Eingaben ziehen eine neue Eingabe
-		nach sich. \\ \hline
-		
-		Spielzug \texttt{move} & move: number, city1, city2
-		& Mit diesem Befehl nimmt der Benutzer keine Bewegung oder \"Anderung vor.
-		Die Syntax und die Semantik der Eingabe (St\"adte existieren, St\"adte sind verbunden,
-		Anzahl Manager in city1 ist gr\"o\ss{}er gleich number) wird gepr\"uft. Nicht korrekte Eingaben
-		ziehen eine neue Eingabe nach sich. \\ \hline
-		
-		Spielzug \texttt{build} & build: city
-		& Die Syntax und die Semantik der Eingabe (St\"ad existiert, St\"adt hat nicht schon ein
-		Hotel) wird gepr\"uft. Nicht korrekte Eingaben
-		ziehen eine neue Eingabe nach sich. \\ \hline
-		
-		Spielzug \texttt{hire} & hire: city
-		& Die Syntax und die Semantik der Eingabe (St\"ad existiert, Anzahl der Spieltage reicht noch
-		aus, um Zug auszuf\"uhren) wird gepr\"uft. Nicht korrekte Eingaben
-		ziehen eine neue Eingabe nach sich. Eine automatische Berechnung erfolgt in den
-		\emph{gesperrten} Tagen. \\ \hline
-		
-		Berechnung des Tagesgewinns &
-		& Am Ende eines Spieltages wird der Tagesgewinn berechnet und angezeigt. \\ \hline
-		
-		Anzeige des Spielstatus am Ende eines Tages &
-		& Am Ende eines Tages wird eine Statistik mit der Anzahl der Manager, Hotels, den
-		den potenziellen und dem aktuellen Gewinn je Stadt angezeigt. \\ \hline
-		
-		Pr\"ufung der Syntax f\"ur Befehle &
-		& F\"ur jeden definierten Befehl wird die Syntax der Eingabe gepr\"uft und abgeglichen.
-		Nicht konforme Angaben werden nicht akzeptiert. Dies schlie\ss{}t insbesondere Sonderzeichen
-		ein. \\ \hline
-		
-		Aufruf der Hilfe & help!
-		& Jederzeit kann der Spieler eine Hilfe anzeigen lassen. \\ \hline
-	
-		Beginn eines neuen Spiels & new game!
-		& Hiermit kann der Spieler jederzeit eine neue Runde beginnen. \\ \hline
-		
-		Spielabbruch auf Wunsch des Spielers & quit!
-		& Hiermit kann der Spieler jederzeit das Spiel beenden. \\ \hline
-		
-		Berechnung des Gesamtgewinns &
-		& Am Ende eines Spieltages wird der bis dahin erzielte Gewinn ausgegeben. \\ \hline
-		
-		Pr\"ufung auf Highscore &
-		& Am Ende des Spiels wird zusammen mit dem Namen des Spielers gepr\"uft,
-		ob die erreichte Punktzahl unter den 10 besten bisherigen Ergebnissen ist. \"Uber
-		das Ergebnis wird der Spieler informiert. \\ \hline
-
-		Darstellung der Highscores &
-		& Am Ende des Spiels wird die Highscore-Liste angezeigt.\\ \hline
 				
-		Abspeichern der Highscore-Liste &
-		& Am Ende des Spiels wird der Name des Spielers abgefragt, welcher dann mit der
-		erreichten Punktzahl in die High-Score-Datein eingef\"ugt wird, falls die erreichte
-		Punktzahl hoch genug ist. \\ \hline
+		[UI] Funktionen navigieren & anlegen, ausgeben, suchen, sortieren, bearbeiten, l\"oschen
+		& \dots \\ \hline
 		
-		Regul\"ares Spielende &
-		& Nachdem die Highscore Liste dargestellt wurde, verabschiedet sich das Spiel vom Spieler.
-		\\ \hline
+		[UI] Anlegen neuer Eintr\"age & notwendige Attribute
+		& \dots \\ \hline
+		
+		[UI] Anlegen neuer Eintr\"age & optionale Attribute
+		& \dots \\ \hline
+		
+		[UI] Hilfe aufrufen & 
+		&  \\ \hline
+		
+		[UI] \"Offnen, Bearbeiten und Speichern von Telefonb\"uchern & 
+		& \\ \hline
+	
+		Robustheit: Abfangen \emph{falscher} Eingaben &
+		& \dots\\ \hline
+				
 		
 	\end{tabular}
 \end{center}
