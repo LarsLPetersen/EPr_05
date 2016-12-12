@@ -9,7 +9,7 @@ __email__ = "qasimr@icloud.com, petersen@informatik.uni-frankfurt.de"
 import os.path
 import pickle
 import pprint
-import constants
+import pb_constants
 import random
 from operator import attrgetter
 
@@ -81,12 +81,12 @@ class PhoneBookEntry(object):
 class PhoneBook(object):
     """Class containing entries"""
     
-    def __init__(self, name, test_mode = False):
+    def __init__(self, file_name): #, test_mode = False):
         """ """
         
-        """
-        self.name = name
-        self.file_name = name + ".pkl"
+        
+        #self.name = name
+        self.file_name = file_name #name + ".pkl"
         self.entries = self.read_from_file(self.file_name) 
         self.nb_of_entries = len(self.entries)
             
@@ -103,7 +103,7 @@ class PhoneBook(object):
             self.entries = self.generate_testbook()
             self.write_to_file(self.file_name)
             self.nb_of_entries = len(self.entries)
-    
+        """
     
     
     def add_entry(self, entry):
@@ -212,11 +212,11 @@ class PhoneBook(object):
         else: pass
         
         
-    def write_to_file(self, file_name):
+    def write_to_file(self, file_name, entries):
         """ """
         
         output = open(file_name, "wb")
-        pickle.dump(self.entries, output)
+        pickle.dump(entries, output)
         output.close()
         
     
@@ -256,7 +256,7 @@ if __name__ == "__main__":
     print("pb1.entries =", pb1.entries)
     """
     
-    fn2 = "Example_PhoneBook"
+    fn2 = "Example_PhoneBook.pkl"
     pb2 = PhoneBook(fn2)
     #pb2.write_to_file("Example_PhoneBook.pkl")
     

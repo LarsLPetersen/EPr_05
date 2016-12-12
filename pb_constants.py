@@ -6,8 +6,12 @@ __credits__ = ""
 __email__ = "qasimr@icloud.com, petersen@informatik.uni-frankfurt.de"
 
 
-GUI_WARNINGS = {1:"Hallo"}
-GUI_MESSAGES = {1:"Hallo"}
+GUI_INFO = u"\u00A9" + " Lars Petersen\n" + \
+           "   Quasim Raza\n\n" + \
+           "   12/2016 (EPr 05)"
+           
+GUI_WARNINGS = {1:"Hallo", 2:"Du"}
+GUI_MESSAGES = {1:"Hallo", 2:"Ich"}
 
 FIRST_NAMES = ["Max", "Lotta", "Luise", "Emilie", "Hanna", "Hannah",
                "Bert", "Gustav", "Elfriede", "Jens", "Peter", "Katrin",
