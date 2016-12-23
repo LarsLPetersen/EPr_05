@@ -77,7 +77,6 @@ class PhoneBookEntry(object):
             return False
 
 
-
 class PhoneBook(object):
     """Class containing entries"""
     
@@ -124,8 +123,7 @@ class PhoneBook(object):
             if pb_entry == entry:
                 return True
                 break
-            else:
-                return False
+            else: return False
                 
     
     def search(self, criterion):
