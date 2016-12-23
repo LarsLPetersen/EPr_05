@@ -66,77 +66,91 @@ Dokumentation der Testf\"alle:
 
 \begin{center}
 
-	{\Large Interne Funktionalit\"at} \\[2ex]
-
 	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
 		\hline
 		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
 		
-		Begr\"u\ss{}ung & 
-		& \dots \\ \hline
+		Beispiel f\"ur ein Telefonbuch &
+		& Ein Beispiel f"ur ein Telefonbuch wurde zuf\"allig erzeugt. Dabei sind auch
+		Eintr\"age vorhanden, die keine Telefonnummer enthalten (optionales Attribut). \\ \hline
 		
-		Neue Eintr\"age \newline anlegen & notwenidge Attribute
-		& \dots \\ \hline
+		Neue Eintr\"age \newline anlegen (intern) & notwendige Attribute
+		&  Der Konstruktor der Klasse PhoneBookEntry erzeugt einen neuen Eintrag.
+		Bis auf die Telefonnummer sind alle Attribute verpflichtend. Getestet mit einem Eintrag aus
+		dem Beispiel-Telefonbuch. \\ \hline
 		
-		Neue Eintr\"age \newline anlegen & optionale Attribute
-		& \dots \\ \hline
+		Neue Eintr\"age \newline anlegen (GUI) &
+		& Nicht umgesetzt. \\ \hline
 		
 		Telefonbuch \newline vollst\"andig \newline anzeigen & 
-		& Aus einer Liste werden zuf\"allig zwischen 5 und 20 St\"adte ausgew\"ahlt. \\ \hline
+		& Die Eintr\"age eines ge\"offneten Telefonbuchs werden in einer
+		Liste angezeigt. Getestet f\"ur das mitgelieferte Beispiel-Telefonbuch.\\ \hline
 		
-		Eintr\"age suchen & Angabe einzelner oder mehrerer Attribute
-		& \dots \\ \hline
+		Eintr\"age suchen (intern und GUI) und Ergebnisse anzeigen & anhand eines einzelnen Attributs
+		& Eintr\"age k\"onnen sowohl in der GUI als auch intern gesucht werden.
+		Getestet f\"ur das mitgelieferte Beispiel-Telefonbuch. Suchkriterium: Stadt = K\"oln -
+		Ausgabe: zwei Datens\"atze.\\ \hline
 		
 		Eintr\"age sortieren und anzeigen & anhand aller Attribute
-		& Ber\"ucksichtigung von Sekund\"ar- und Terti\"arkriterien \dots \\ \hline
+		& Erfolgreich getestet intern und in der GUI f\"ur das mitgelieferterte Beispiel-Telefonbuch.
+		Kriterium: Vorname. Ausgabe: Aufsteigend sortierte Liste der Eintr\"age unter \"Ber\"ucksichtigung
+		der definierten Sekund\"ar- und Terti\"arkriterien. \\ \hline
 		
 		Eintr\"age bearbeiten & individuell je Attribut
-		& \dots \\ \hline
+		& Intern umgesetzt. In der GUI nicht umgesetzt. Getestet f\"ur eine \"Anderung des Attributs
+		Stadt f\"ur einen Eintrag im Beispiel-Telefonbuch.\\ \hline
 		
 		Eintr\"age l\"oschen & 
-		& \dots \\ \hline
+		& Intern umgesetzt. In der GUI fehlt die Funktionalit\"at.
+		Getestet f\"ur einen Eintrag im Beispiel-Telefonbuch.\\ \hline
 		
 		Telefonbuch neu anlegen und in Datei ablegen & 
-		& \dots \\ \hline
+		& Erfolgreich getestet f\"ur Telefonbuch mit dem Namen TelefonbuchXY.pkl (GUI und intern).
+		Datei wird lokal im aktuellen Ordner des aufgerufenen Skripts abgelegt \\ \hline
 		
 		Bestehendes Telefonbuch aus Datei einlesen und \"offnen & 
-		& \dots \\ \hline
+		& Erfolgreich gestetet f\"ur mitgeliefertes Beispiel-Telefonbuch. \\ \hline
 		
-		\"Anderungen eines Telefonbuchs abspeichern & 
-		& \dots \\ \hline
+		Telefonbuch abspeichern & 
+		& Erfolgreich gestetet f\"ur mitgeliefertes Beispiel-Telefonbuch. \\ \hline
 		
 		Test-Telefonbuch &
-		& Test-Telefonbuch mit Namen Test-Telefonbuch wurde angelegt. \\ \hline
-	\end{tabular}
-	
-	\newpage
-	
-	{\Large User Interface} \\[2ex]
+		& Test-Telefonbuch wurde angelegt und mitgeliefert. \\ \hline
 		
-	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
-		\hline
-		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
-				
-		[UI] Funktionen navigieren & anlegen, ausgeben, suchen, sortieren, bearbeiten, l\"oschen
-		& \dots \\ \hline
-		
-		[UI] Anlegen neuer Eintr\"age & notwendige Attribute
-		& \dots \\ \hline
-		
-		[UI] Anlegen neuer Eintr\"age & optionale Attribute
-		& \dots \\ \hline
-		
-		[UI] Hilfe aufrufen & 
-		&  \\ \hline
-		
-		[UI] \"Offnen, Bearbeiten und Speichern von Telefonb\"uchern & 
-		& \\ \hline
-	
-		Robustheit: Abfangen \emph{falscher} Eingaben &
-		& \dots\\ \hline
-				
+		Hilfe aufrufen & 
+		&  Nicht umgesetzt. \\ \hline
 		
 	\end{tabular}
+	
+	
+%	\newpage
+%	
+%	{\Large User Interface} \\[2ex]
+%		
+%	\begin{tabular}{| p{2.5cm} | p{2.2cm} | p{10cm} |}
+%		\hline
+%		Funktionalit\"at & Eingabe & Verhalten des Programms\\ \hline \hline
+%				
+%		[UI] Funktionen navigieren & anlegen, ausgeben, suchen, sortieren, bearbeiten, l\"oschen
+%		& \dots \\ \hline
+%		
+%		[UI] Anlegen neuer Eintr\"age & notwendige Attribute
+%		& \dots \\ \hline
+%		
+%		[UI] Anlegen neuer Eintr\"age & optionale Attribute
+%		& \dots \\ \hline
+%		
+%		[UI] Hilfe aufrufen & 
+%		&  \\ \hline
+%		
+%		[UI] \"Offnen, Bearbeiten und Speichern von Telefonb\"uchern & 
+%		& \\ \hline
+%	
+%		Robustheit: Abfangen \emph{falscher} Eingaben &
+%		& \dots\\ \hline
+%				
+%		
+%	\end{tabular}
 \end{center}
 
 \end{exercise}

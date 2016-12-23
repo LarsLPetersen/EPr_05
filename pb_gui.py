@@ -1,47 +1,106 @@
-"""..."""
+"""Contains the main GUI classes of the Application
+
+   Application   -- main window
+   SearchChoice  -- window for setting the search criteria for the phonebook
+   SortChoice    -- window for setting the sort criteria of the phonebook    
+"""
 
 __author__ = "6360278: Qasim Raza, 6290157: Lars Petersen"
 __copyright__ = ""
 __credits__ = "" 
 __email__ = "qasimr@icloud.com, petersen@informatik.uni-frankfurt.de"
 
+
+# built-in modules
 import tkinter as tk
-import sys
 from tkinter import filedialog
 from tkinter import messagebox
-#import pb_phonebook
+import sys
+import pickle
+
+# customized modules
 from pb_phonebook import *
 import pb_constants
-import pickle
-from functools import partial
+
+
+class SearchChoice:
+    """Window for setting the search criteria for the phonebook"""
+    
+    def __init__(self, parent):
+        """Creates the SearchChoice-Window"""
+        
+        self.root = tk.Toplevel()
+        self.container = tk.LabelFrame(self.root, text = "Suchkriterien")
+        self.container.pack()
+        self.choices = pb_constants.GUI_SORT_CHOICES
+        self.parent = parent
+        
+        global choice
+        choice = tk.StringVar()
+        choice.set("")
+        
+        global entry
+        entry = tk.StringVar()
+        entry.set("")
+        
+        self.sbox = tk.Spinbox(self.container, textvariable = choice, \
+                values = self.choices, command = lambda: choice.get(), \
+                state = "readonly").grid(row = 0, column = 0)
+        
+        self.entry = tk.Entry(self.container, textvariable = entry)
+        self.entry.grid(row = 0, column = 1)
+        
+        self.button_search = tk.Button(self.container, text = "Suchen", \
+                command = self.search_entries)
+        self.button_search.grid(row = 1, column = 1, ipady = 5)
+        
+    
+    def search_entries(self):
+        """Performs the actual search on the current phonebook entries"""
+        
+        global choice
+        self.parent.search_criterion[0] = choice.get()
+        
+        global entry
+        self.parent.search_criterion[1] = entry.get()
+        
+        self.parent.current_phonebook_list = \
+            self.parent.current_phonebook.search(self.parent.search_criterion)
+        self.parent.update()
 
 
 class SortChoice:
-    """ """
-    def __init__(self):
+    """Window for setting the sort criterium for the current phonebook"""
+    
+    def __init__(self, parent):
         """ """
-        self.choice = None
         self.root = tk.Toplevel()
-        #self.root.resizable(0,0)
-        self.container = tk.LabelFrame(self.root, text = "Sortierkriterium", width = 35)
+        self.container = tk.LabelFrame(self.root, text = "Sortierkriterium")
         self.container.pack()
         self.choices = pb_constants.GUI_SORT_CHOICES
+        self.parent = parent
         
         global choice
         choice = tk.StringVar()
         choice.set(self.choices[2])
         
         self.sbox = tk.Spinbox(self.container, textvariable = choice, \
-                values = self.choices, command = lambda: choice.get(), state = "readonly").grid(row = 0)
+                values = self.choices, command = lambda: choice.get(), \
+                state = "readonly").grid(row = 0)
         self.button_sort = tk.Button(self.container, text = "Sortieren", \
-                command = self.get_choice).grid(row = 1, ipady = 5)
+                command = self.sort_entries).grid(row = 1, ipady = 5)
         
     
-    def get_choice(self):
-        """ """
+    def sort_entries(self):
+        """Performs the actual sorting on the phonebook entries"""
+        
         global choice
-        return(choice.get())
-    
+        self.parent.sort_criterion = choice.get()
+        self.parent.current_phonebook_list = \
+            self.parent.current_phonebook.sort(self.parent.sort_criterion,\
+                                        self.parent.current_phonebook.entries)
+        self.parent.update()
+        
         
 class Application:
     """ """
@@ -50,130 +109,146 @@ class Application:
         """ """
         
         self.current_phonebook = None
+        self.original_phonebook = None
         self.current_phonebook_list = None
+        self.current_entry = None
+        self.sort_criterion = None
+        self.search_criterion = [None, None]
         
-        self.phonebook_name = "N/A"
-        
-        #global root
         self.root = tk.Tk()
         self.root.title("Telefonbuch Manager")
-        #self.root.resizable(0,0)
           
         # Create a menu bar
         self.menubar = tk.Menu(self.root)
         self.root.config(menu = self.menubar) # Display the menu bar
 
-        # menu offering general actions
+        # menu offering general actions on the manager
         self.general_menu = tk.Menu(self.menubar, tearoff = 0)
-        self.menubar.add_cascade(label = "Telefonbuch Manager", menu = self.general_menu)
-        
+        self.menubar.add_cascade(label = "Manager", menu = self.general_menu)
         self.general_menu.add_command(label = "Info", command = self.info)          
         self.general_menu.add_separator()
-        self.general_menu.add_command(label = "Telefonbuch Manager beenden", command = self.quit)
+        self.general_menu.add_command(label = "Manager beenden", \
+                                      command = self.quit)
          
-        # menu offering actions on the open phonebook
+        # menu offering actions on phonebooks
         self.phonebook_menu = tk.Menu(self.menubar, tearoff = 0)  
-        self.menubar.add_cascade(label = "Telefonbuch", menu = self.phonebook_menu)
-        self.phonebook_menu.add_command(label = "Neu", command = self.new_phonebook)
+        self.menubar.add_cascade(label = "Telefonbuch", \
+                                 menu = self.phonebook_menu)
+        self.phonebook_menu.add_command(label = "Neu", \
+                                        command = self.new_phonebook)
         self.phonebook_menu.add_command(label = "Öffnen...", \
-                command = self.open_phonebook)
-                #command = partial(self.open_phonebook, (self.middle_frame, self.phonebook_list)))
+                                        command = self.open_phonebook)
         self.phonebook_menu.add_separator()
-    
-
-        self.phonebook_menu.add_command(label = "Durchsuchen...", \
-                command = self.search_phonebook)
-        
-        self.phonebook_menu.add_command(label = "Sortieren...",  \
-                command = self.sort_phonebook)
+        self.phonebook_menu.add_command(label = "Durchsuchen", \
+                                        command = self.call_search_dialog)
+        self.phonebook_menu.add_command(label = "Sortieren",  \
+                                        command = self.call_sort_dialog)
+        self.phonebook_menu.add_command(label = "Zurücksetzen",  \
+                                        command = self.back_to_start)
         self.phonebook_menu.add_separator()
-        
-        
         self.phonebook_menu.add_command(label = "Speichern", \
-                command = self.save_phonebook)          
+                                        command = self.save_phonebook)          
         self.phonebook_menu.add_command(label = "Speichern unter...", \
-                command = self.save_phonebook_as)
+                                        command = self.save_phonebook_as)
         self.phonebook_menu.add_separator()
         self.phonebook_menu.add_command(label = "Schließen", \
-                command = self.close_phonebook)
+                                        command = self.close_phonebook)
          
-        # menu offering actions concerning phonebook a single phonebook entry
-        """
+        # menu offering actions concerning a single phonebook entry
         self.entry_menu = tk.Menu(self.menubar, tearoff = 0)  
         self.menubar.add_cascade(label = "Eintrag", menu = self.entry_menu)
-        
-        self.entry_menu.add_command(label = "Bearbeiten...", command = self.dummy)          
+        self.entry_menu.add_command(label = "Neu...", command = self.dummy)          
+        self.entry_menu.add_command(label = "Bearbeiten...", \
+                                    command = self.dummy)          
         self.entry_menu.add_command(label = "Löschen", command = self.dummy)
-        """
         
-        self.top_frame = tk.LabelFrame(self.root, text = "Allgemeine Information")
+        
+        # building the widgets
+        self.top_frame = tk.LabelFrame(self.root, \
+                                       text = "Allgemeine Information")
         self.top_frame.pack(side = "top", fill = "both", expand = "yes")
         
         global phonebook_name
         phonebook_name = tk.StringVar()
         phonebook_name.set("Aktuelles Telefonbuch: N/A")
-        self.l1 = tk.Label(self.top_frame, textvariable = phonebook_name)
-        self.l1.grid(row = 0, sticky = tk.W)
         
-        #self.l1 = tk.Label(self.top_frame, text = "Aktuelles Telefonbuch: {}".format(self.phonebook_name))
-        #self.l1.pack(side = "top")
+        self.label_pb_name = tk.Label(self.top_frame, \
+                                      textvariable = phonebook_name)
+        self.label_pb_name.grid(row = 0, sticky = tk.W)
         
         global num_entries
         num_entries = tk.StringVar()
         num_entries.set("Anzahl Einträge: N/A")
-        self.l2 = tk.Label(self.top_frame, textvariable = num_entries)
-        self.l2.grid(row = 1, sticky = tk.W)
         
-        #self.l2 = tk.Label(self.top_frame, text = "Anzahl der Einträge:")
-        #self.l2.pack(side = "bottom")
+        self.label_pb_count = tk.Label(self.top_frame, \
+                                       textvariable = num_entries)
+        self.label_pb_count.grid(row = 1, sticky = tk.W)
         
         self.middle_frame = tk.LabelFrame(self.root, text = "Einträge")
         self.middle_frame.pack()
         
-        #self.phonebook_list = PhonebookList(self.middle_frame, None)
-        self.phonebook_list = tk.Listbox(self.middle_frame, height = 20, width = 85)
+        # the Listbox showing all the Entries
+        self.phonebook_list = tk.Listbox(self.middle_frame, \
+                                         height = 20, width = 85)
         self.phonebook_list.pack()
         
-        
-        self.bottom_frame = tk.LabelFrame(self.root, text = "Ausgewählten Eintrag ...")
-        self.bottom_frame.pack(side = "bottom", fill = "both")
-
-        self.button_modify = tk.Button(self.bottom_frame, text = "bearbeiten", command = self.dummy)
-        self.button_modify.pack(side = "left")
-        
-        self.button_delete = tk.Button(self.bottom_frame, text = "löschen", default = tk.DISABLED, command = self.dummy)
-        self.button_delete.pack(side = "right")
-
         tk.mainloop()
 
     
-    def search_phonebook(self):
-        """ """
-        pass
+    def back_to_start(self):
+        """Reset the list of entries to get back to original state"""
         
-    
-    def sort_phonebook(self):
-        """ """
-        print("Sortieren...")
         if self.current_phonebook is not None:
-            sc = SortChoice()
-            criterion = sc.get_choice()
-            print(criterion)
-            self.current_phonebook.entries = self.current_phonebook.sort(criterion, self.current_phonebook.entries) 
+            self.current_phonebook = self.original_phonebook
+            self.current_phonebook_list = self.current_phonebook.entries
+            self.update()
+        else: 
+            info = "Zurücksetzen nicht möglich.\n\n" + \
+                   "Aktuell kein Telefonbuch offen."
+            messagebox.showinfo(title = "Info", message = info)
+        
+        
+    def call_sort_dialog(self):
+        """Calls the dialog for setting the sort criterium"""
+        
+        if self.current_phonebook is not None:
+            sort_dialog = SortChoice(self)
         else: 
             info = "Sortieren nicht möglich.\n\nAktuell kein Telefonbuch offen."
             messagebox.showinfo(title = "Info", message = info)
         self.update()
         
+    
+    def call_search_dialog(self):
+        """Call the dialog for setting the search criteria"""
         
+        if self.current_phonebook is not None:
+            sc = SearchChoice(self)
+        else: 
+            info = "Suche nicht möglich.\n\nAktuell kein Telefonbuch offen."
+            messagebox.showinfo(title = "Info", message = info)
+        self.update()
+    
+    
     def info(self):
-        """ """
+        """Prints the author info into a message box"""
         
         messagebox.showinfo(title = "Info", message = pb_constants.GUI_INFO)
     
     
+    def echo(self, entry):
+        """Brings a PhoneBookEntry into a more readable string format"""
+        
+        result = ""
+        result += entry.first_name.ljust(15) + entry.second_name.ljust(15) + \
+                  entry.city.ljust(15) + entry.postal_code.ljust(9) + \
+                  entry.street.ljust(20) + entry.phone_number.ljust(15)
+        return result
+        
+        
     def update(self):
-        """ """
+        """Updates the widgets to contain the current information"""
+        
         global phonebook_name
         global num_entries
         
@@ -182,22 +257,28 @@ class Application:
             num_entries.set("Anzahl Einträge: N/A")
             self.phonebook_list.delete(0, tk.END)
         else:
-            phonebook_name.set("Aktuelles Telefonbuch: {}".format(self.current_phonebook.file_name))
-            num_entries.set("Anzahl Einträge: {}".format(self.current_phonebook.nb_of_entries))
+            info_phonebook = "Aktuelles " + \
+                    "Telefonbuch: {}".format(self.current_phonebook.file_name)
+            phonebook_name.set(info_phonebook)
+            
+            info_num_entries = "Anzahl " + \
+                    "Einträge: {}".format(self.current_phonebook.nb_of_entries)
+            num_entries.set(info_num_entries)
+            
             self.phonebook_list.delete(0, tk.END)
             index = 1
-            for entry in self.current_phonebook.entries:
-                self.phonebook_list.insert(index, entry)
+            for entry in self.current_phonebook_list:
+                self.phonebook_list.insert(index, self.echo(entry))
                 index += 1
         
-        self.l1.update()
-        self.l2.update()
+        self.label_pb_name.update()
+        self.label_pb_count.update()
         self.phonebook_list.update()
             
 
     def close_phonebook(self):
-        """ """
-        print("Schließen...")
+        """Closes the current PhoneBook - its entries are no longer visible"""
+        
         if self.current_phonebook is not None:
             self.current_phonebook = None
         else: 
@@ -207,11 +288,13 @@ class Application:
     
     
     def save_phonebook(self):
-        """ """
-        print("Speichern...")
+        """Saves the current PhoneBook to disk - under the current name"""
+        
         if self.current_phonebook is not None:
-            self.current_phonebook.write_to_file(self.current_phonebook.file_name, self.current_phonebook.entries)
-            info = "Telefonbuch {} wurde gespeichert.".format(self.current_phonebook.file_name)
+            self.current_phonebook.write_to_file(\
+              self.current_phonebook.file_name, self.current_phonebook.entries)
+            info = "Telefonbuch " + self.current_phonebook.file_name + \
+                   " wurde gespeichert."
             messagebox.showinfo(title = "Info", message = info)
         else:
             info = "Speichern nicht möglich.\n\nAktuell kein Telefonbuch offen."
@@ -219,14 +302,15 @@ class Application:
         
     
     def save_phonebook_as(self):
-        """ """
-        print("Speichern unter...")
+        """Saves the current PhoneBook to disk - under a possibly new name"""
+        
         if self.current_phonebook is not None:
-            file_name = filedialog.asksaveasfilename(defaultextension = ".pkl", initialfile = "Telefonbuch_XY")
+            file_name = filedialog.asksaveasfilename(defaultextension = ".pkl",\
+                                             initialfile = "Telefonbuch_XY")
         
             if file_name != "":
                 phone_book = PhoneBook(file_name)
-                info = "Telefonbuch wurde unter {} gespeichert.".format(file_name)
+                info = "Telefonbuch wurde unter " + file_name + " gespeichert."
                 messagebox.showinfo(title = "Info", message = info)
             else: pass
         else:
@@ -235,9 +319,10 @@ class Application:
                            
     
     def new_phonebook(self):
-        """ """
-        print("Neues Telefonbuch...")
-        file_name = filedialog.asksaveasfilename(defaultextension = ".pkl", initialfile = "Telefonbuch_XY")
+        """Creates a new PhoneBook and saves it"""
+        
+        file_name = filedialog.asksaveasfilename(defaultextension = ".pkl", \
+                                            initialfile = "Telefonbuch_XY")
         
         if file_name != "":
             phone_book = PhoneBook(file_name)
@@ -247,26 +332,30 @@ class Application:
         
             
     def open_phonebook(self):
-        """ """
-        print("Telefonbuch öffnen...")
+        """Opens an existing internal PhoneBook and displays its contents"""
+        
         file_name = filedialog.askopenfilename(filetypes = [("Pickle", ".pkl")])              
         
         if file_name != "":
             self.current_phonebook = PhoneBook(file_name)
+            self.original_phonebook = self.current_phonebook
+            self.current_phonebook_list = PhoneBook(file_name).entries
             self.update()
         else: pass
         
 
     def quit(self):
-        """ """
-        sys.exit()
+        """Quits the application"""
         
-            
+        sys.exit()
+
+
     def dummy(self):
-        print("Dummy...")
-
-     
-
+        """Partially shows what has not been implemented yet in the GUI"""
+        
+        info = "Funktionalität noch nicht umgesetzt..."
+        messagebox.showinfo(title = "Info", message = info)
+        
+        
 if __name__ == "__main__":
-    
     gui = Application()

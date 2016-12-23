@@ -1,4 +1,4 @@
-"""Contains the main class PhoneBook"""
+"""Contains the main internal classes PhoneBook and PhoneBookEntry"""
 
 __author__ = "6360278: Qasim Raza, 6290157: Lars Petersen"
 __copyright__ = ""
@@ -6,12 +6,15 @@ __credits__ = ""
 __email__ = "qasimr@icloud.com, petersen@informatik.uni-frankfurt.de"
 
 
+# built-in modules
 import os.path
 import pickle
 import pprint
-import pb_constants
 import random
 from operator import attrgetter
+
+# customized modules
+import pb_constants
 
 
 class PhoneBookEntry(object):
@@ -19,7 +22,7 @@ class PhoneBookEntry(object):
     
     def __init__(self, first_name, second_name, city, postal_code, \
                  street, phone_number = None):
-        """ """
+        """Creates a PhoneBookEntry"""
         
         self.first_name = first_name
         self.second_name = second_name
@@ -31,7 +34,7 @@ class PhoneBookEntry(object):
     
     def update(self, first_name, second_name, city, postal_code, \
                      street, phone_number = None):
-        """ """         
+        """Updates attributes of the PhoneBookEntry with the provided values"""         
         
         self.first_name = first_name
         self.second_name = second_name
@@ -44,13 +47,14 @@ class PhoneBookEntry(object):
         
     
     def __repr__(self):
-        """ """
+        """Returns a standard represenation of the given PhoneBookEntry"""
         
         return repr((self.first_name, self.second_name, self.city, \
                      self.postal_code, self.street, self.phone_number))
+    
                      
     def to_list(self):
-        """ """
+        """Converts the PhoneBookEntry to a flat list"""
         
         result = []
         result.append(self.first_name)
@@ -64,7 +68,7 @@ class PhoneBookEntry(object):
         
     
     def __eq__(self, other):
-        """ """
+        """Compares this PhoneBookEntry to another one (True/False)"""
         
         if ((self.first_name == other.first_name) and \
            (self.second_name == other.second_name) and \
@@ -77,18 +81,18 @@ class PhoneBookEntry(object):
             return False
 
 
+
 class PhoneBook(object):
-    """Class containing entries"""
+    """Class defining a PhoneBook containing with PhoneBookEntries"""
     
-    def __init__(self, file_name): #, test_mode = False):
-        """ """
-        
-        
-        #self.name = name
+    def __init__(self, file_name):
+        """Creates an internal PhoneBook with PhoneBookEntries """
+          
         self.file_name = file_name #name + ".pkl"
         self.entries = self.read_from_file(self.file_name) 
         self.nb_of_entries = len(self.entries)
             
+        # code-fragment to allow for creation of an example phonebook
         """
         if not test_mode:
             self.name = name
@@ -106,7 +110,7 @@ class PhoneBook(object):
     
     
     def add_entry(self, entry):
-        """ """
+        """Adds a PhoneBookEntry to the given internal PhoneBook"""
         
         if not entry in self:
             self.entries.append(entry)
@@ -117,7 +121,7 @@ class PhoneBook(object):
     
     
     def __contains__(self, entry):
-        """ """
+        """Checks if a given entry is already inside the given PhoneBook"""
         
         for pb_entry in self.entries:
             if pb_entry == entry:
@@ -127,38 +131,38 @@ class PhoneBook(object):
                 
     
     def search(self, criterion):
-        """ """
+        """Searches for entries in the PhoneBook matching the criterion"""
         
         result = []
         if criterion[0] == "Vorname":
             for entry in self.entries:
                 if entry.first_name == criterion[1]:
-                    result.append(entry.to_list())
+                    result.append(entry)
                     
         elif criterion[0] == "Nachname":
             for entry in self.entries:
                 if entry.second_name == criterion[1]:
-                    result.append(entry.to_list())
+                    result.append(entry)
         
         elif criterion[0] == "Stadt":
             for entry in self.entries:
                 if entry.city == criterion[1]:
-                    result.append(entry.to_list())
+                    result.append(entry)
                     
         elif criterion[0] == "PLZ":
             for entry in self.entries:
                 if entry.postal_code == criterion[1]:
-                    result.append(entry.to_list())
+                    result.append(entry)
                     
         elif criterion[0] == "Straße":
             for entry in self.entries:
                 if entry.street == criterion[1]:
-                    result.append(entry.to_list())
+                    result.append(entry)
         
         elif criterion[0] == "Telefonnummer":
             for entry in self.entries:
                 if entry.phone_number == criterion[1]:
-                    result.append(entry.to_list())
+                    result.append(entry)
                     
         else: pass
         
@@ -166,7 +170,7 @@ class PhoneBook(object):
     
     
     def delete_entry(self, entry):
-        """ """
+        """Removes an entry from the internal PhoneBook"""
         
         if entry in self:
             self.entries.remove(entry)
@@ -175,7 +179,7 @@ class PhoneBook(object):
     
     
     def sort(self, criterion, entries):
-        """ """
+        """Sorts the entries of the PhoneBook according to given criterion"""
         
         if criterion == "Vorname":
             entries.sort(key = attrgetter("first_name", "second_name", \
@@ -211,7 +215,7 @@ class PhoneBook(object):
         
         
     def write_to_file(self, file_name, entries):
-        """ """
+        """Writes entries of the PhoneBook to a pkl-file"""
         
         output = open(file_name, "wb")
         pickle.dump(entries, output)
@@ -219,7 +223,7 @@ class PhoneBook(object):
         
     
     def read_from_file(self, file_name):
-        """ """
+        """Reads entries from a saved phonebook into an object"""
         
         if os.path.isfile(file_name):
             input = open(file_name, "rb")
@@ -232,7 +236,7 @@ class PhoneBook(object):
             
 
     def generate_testbook(self):
-        """ """
+        """Generates an example of an internal PhoneBook"""
         
         entries = [PhoneBookEntry(random.sample(constants.FIRST_NAMES, 1)[0], \
                    random.sample(constants.SECOND_NAMES, 1)[0], \
@@ -244,57 +248,3 @@ class PhoneBook(object):
                     
         return entries
         
-
-    
-if __name__ == "__main__":
-    
-    """
-    fn1 = "testbuch1"
-    pb1 = PhoneBook(fn1)
-    print("pb1.entries =", pb1.entries)
-    """
-    
-    fn2 = "Example_PhoneBook.pkl"
-    pb2 = PhoneBook(fn2)
-    #pb2.write_to_file("Example_PhoneBook.pkl")
-    
-    print("Example_PhoneBook")
-    for entry in pb2.entries:
-        print(entry.to_list())
-    """
-    #print(pb2.entries)
-    print("Mozart")
-    print(pb2.search(["Nachname", "Mozart"]))
-    
-    criterion = "Nachname"
-    l = pb2.sort(criterion, pb2.entries)
-    print(criterion)
-    for entry in l:
-        print(entry.to_list())
-    for entry in l:
-        print(repr(entry))
-    entry1 = PhoneBookEntry("a", "b", "c", "d", "e")
-    entry2 = PhoneBookEntry("a", "b", "c", "d", "e")
-    entry3 = PhoneBookEntry("a", "b", "c", "d", "f")
-    entry4 = PhoneBookEntry("a", "b", "c", "d", "f")
-    print("entry1.to_list() =", entry1.to_list())
-    
-    
-    pb1.add_entry(entry1)
-    pb1.add_entry(entry3)
-    
-    for entry in pb1.entries:
-        print(entry.to_list())
-    input()
-    pb1.delete_entry(entry1)
-    for entry in pb1.entries:
-        print(entry.to_list())
-    print("pb1.entries =", pb1.entries)    
-    pb1.write_to_file("testbuch1.pkl")
-    pb1.add_entry(entry2)
-    r = (entry1.is_equal(entry2))
-    l = [entry1, entry2, entry4]
-    lr = (entry3 in l)
-    print(r)
-    print(lr)
-    """

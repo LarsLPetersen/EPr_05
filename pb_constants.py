@@ -1,4 +1,4 @@
-"""Contains sets of properties to build a meaningful phone book from"""
+"""Application constants and example data for the creation of a PhoneBook"""
 
 __author__ = "6360278: Qasim Raza, 6290157: Lars Petersen"
 __copyright__ = ""
@@ -9,10 +9,9 @@ __email__ = "qasimr@icloud.com, petersen@informatik.uni-frankfurt.de"
 GUI_INFO = u"\u00A9" + " Lars Petersen, Quasim Raza\n\n" + \
            "   12/2016 (EPr 05)"
            
-GUI_WARNINGS = {1:"Hallo", 2:"Du"}
-GUI_MESSAGES = {1:"Hallo", 2:"Ich"}
 
-GUI_SORT_CHOICES = ["Nachname", "Vorname", "Stadt", "PLZ", "Straße", "Telefonnummer"]
+GUI_SORT_CHOICES = ["Nachname", "Vorname", "Stadt", "PLZ", "Straße", \
+                    "Telefonnummer"]
 
 FIRST_NAMES = ["Max", "Lotta", "Luise", "Emilie", "Hanna", "Hannah",
                "Bert", "Gustav", "Elfriede", "Jens", "Peter", "Katrin",
